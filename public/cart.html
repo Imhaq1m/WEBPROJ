@@ -1,0 +1,330 @@
+<!-- cart.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Embedded Styles for Consistent Purple Theme -->
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #a64ca6;
+      /* Soft purple */
+      color: white;
+    }
+
+    /* Header Styling */
+    header {
+      background-color: #5e1b79;
+      /* Darker purple header */
+      color: white;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .logo a {
+      color: white;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .center-nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    .center-nav a,
+    .center-nav select {
+      color: white;
+      background-color: #5e1b79;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .center-nav select {
+      padding: 5px;
+    }
+
+    .center-nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* User Profile Styling */
+    .user-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-icon {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .profile-icon img {
+      border-radius: 50%;
+      border: 2px solid white;
+      width: 30px;
+      height: 30px;
+      object-fit: cover;
+    }
+
+    .profile-icon span {
+      font-size: 14px;
+      color: white;
+      font-weight: bold;
+    }
+
+
+    main {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1,
+    h2 {
+      color: white;
+    }
+
+    .cart-items,
+    .cart-summary {
+      background-color: white;
+      color: black;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .cart-item span {
+      margin-right: 20px;
+    }
+
+    .cart-item div button {
+      margin: 0 5px;
+      padding: 5px 10px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .cart-item div button:hover {
+      background-color: #0056b3;
+    }
+
+    .cart-summary p {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+
+    .summary-total {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .cart-summary button {
+      background-color: #5e1b79;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .cart-summary button:hover {
+      background-color: #8a2be2;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <a href="product.html">Residence Mart</a>
+      </div>
+      <nav class="center-nav">
+        <!--<select id="categories" onchange="filterProducts()">
+          <option value="">All Categories</option>
+          <option value="food-beverages">Food & Beverages</option>
+          <option value="personal-care">Personal Care</option>
+          <option value="household-essential">Household Essential</option>
+          <option value="stationery">Stationery</option>
+          <option value="electronics">Electronics</option>
+          <option value="health-wellness">Health & Wellness</option>
+        </select>-->
+        <a href="about-us.html">About Us</a>
+        <a href="contact.html">Contact/Feedback</a>
+        <a href="cart.html">Cart</a>
+      </nav>
+      <div class="user-profile">
+        <a href="user-profile.html">
+          <div class="profile-icon">
+            <img src="images/avatars/default_photo.png" alt="User Profile" id="header-avatar">
+            <span id="header-username">Loading...</span>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <h1>Your Cart</h1>
+
+    <div class="cart-items">
+      <h2>Cart Items</h2>
+      <div id="cart-items-list"></div>
+    </div>
+
+    <div class="cart-summary">
+      <h2>Summary</h2>
+      <p>Total Products: <span id="total-products">0</span></p>
+      <p>Subtotal: $<span id="subtotal">0</span></p>
+      <p>Shipping:
+        <select id="shipping-method">
+          <option value="self-pickup">Self-Pickup (Free)</option>
+          <option value="delivery">Delivery ($5)</option>
+        </select>
+      </p>
+      <p class="summary-total">Total: $<span id="total-price">0</span></p>
+      <button onclick="checkout()">Continue to Checkout</button>
+    </div>
+  </main>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartItemsList = document.getElementById('cart-items-list');
+    let subtotal = 0;
+
+    function renderCart() {
+      cartItemsList.innerHTML = ''; // Clear previous listings
+      subtotal = 0;
+
+      cart.forEach(item => {
+        subtotal += item.price * item.quantity;
+        cartItemsList.innerHTML += `
+          <div class="cart-item">
+            <span>${item.name} ($${item.price})</span>
+            <div>
+              <button onclick="updateQuantity('${item.id}', -1)">-</button>
+              <span>${item.quantity}</span>
+              <button onclick="updateQuantity('${item.id}', 1)">+</button>
+              <button onclick="removeItem('${item.id}')">Remove</button>
+            </div>
+          </div>
+        `;
+      });
+
+      document.getElementById('total-products').innerText = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('subtotal').innerText = subtotal.toFixed(2);
+      updateTotal();
+    }
+
+    function updateQuantity(productId, change) {
+      const index = cart.findIndex(item => item.id === productId);
+      if (index !== -1) {
+        cart[index].quantity += change;
+
+        if (cart[index].quantity < 0) {
+          cart[index].quantity = 0;
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart();
+      }
+    }
+
+    function removeItem(productId) {
+      cart = cart.filter(item => item.id !== productId);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    function updateTotal() {
+      const shippingMethod = document.getElementById('shipping-method').value;
+      const shippingCost = shippingMethod === 'delivery' ? 5 : 0;
+      const total = subtotal + shippingCost;
+      document.getElementById('total-price').innerText = total.toFixed(2);
+    }
+
+    document.getElementById('shipping-method').addEventListener('change', updateTotal);
+
+    function checkout() {
+      if (cart.length === 0 || cart.every(item => item.quantity === 0)) {
+        alert("Your cart is empty!");
+      } else {
+        window.location.href = "checkout.html";
+      }
+    }
+
+    // Initial render of the cart
+    renderCart();
+
+    // Load user info into header
+    async function loadHeaderUserInfo() {
+      const userId = localStorage.getItem('userId');
+
+      if (!userId) {
+        return; // No user logged in
+      }
+
+      try {
+        const response = await fetch('/user/' + userId);
+        const user = await response.json();
+
+        const usernameElement = document.getElementById('header-username');
+        const avatarElement = document.getElementById('header-avatar');
+
+        if (response.ok) {
+          usernameElement.innerText = user.username || 'User';
+          avatarElement.src = user.avatar || 'images/avatars/default_photo.png';
+        } else {
+          usernameElement.innerText = 'User';
+          avatarElement.src = 'images/avatars/default_photo.png';
+        }
+      } catch (error) {
+        console.error('Error loading user info:', error);
+        document.getElementById('header-username').innerText = 'User';
+        document.getElementById('header-avatar').src = 'images/avatars/default_photo.png';
+      }
+    }
+
+    // Run on page load
+    loadHeaderUserInfo();
+  </script>
+</body>
+
+</html>

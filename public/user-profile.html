@@ -1,0 +1,319 @@
+<!-- user-profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profile</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Embedded Styles for Consistent Purple Theme -->
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #a64ca6;
+      /* Soft purple */
+      color: white;
+    }
+
+    /* Header Styling */
+    header {
+      background-color: #5e1b79;
+      /* Darker purple header */
+      color: white;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .logo a {
+      color: white;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .center-nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    .center-nav a,
+    .center-nav select {
+      color: white;
+      background-color: #5e1b79;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .center-nav select {
+      padding: 5px;
+    }
+
+    .center-nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* User Profile Styling */
+    .user-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-icon {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .profile-icon img {
+      border-radius: 50%;
+      border: 2px solid white;
+      width: 30px;
+      height: 30px;
+      object-fit: cover;
+    }
+
+    .profile-icon span {
+      font-size: 14px;
+      color: white;
+      font-weight: bold;
+    }
+
+
+    main {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1,
+    h2 {
+      color: white;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #a64ca6;
+      /* Darker purple */
+      padding: 20px;
+      color: white;
+    }
+
+    .avatar-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      margin-bottom: 10px;
+    }
+
+    .username {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .manage-account {
+      margin-top: 30px;
+    }
+
+    .manage-account a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .manage-account a:hover {
+      color: #000000;
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
+      background-color: white;
+      color: black;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .account-info {
+      margin-top: 20px;
+    }
+
+    .account-info label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .account-info input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <a href="product.html">Residence Mart</a>
+      </div>
+      <nav class="center-nav">
+        <!--<select id="categories" onchange="filterProducts()">
+          <option value="">All Categories</option>
+          <option value="food-beverages">Food & Beverages</option>
+          <option value="personal-care">Personal Care</option>
+          <option value="household-essential">Household Essential</option>
+          <option value="stationery">Stationery</option>
+          <option value="electronics">Electronics</option>
+          <option value="health-wellness">Health & Wellness</option>
+        </select>-->
+        <a href="about-us.html">About Us</a>
+        <a href="contact.html">Contact/Feedback</a>
+        <a href="cart.html">Cart</a>
+      </nav>
+      <div class="user-profile">
+        <a href="user-profile.html">
+          <div class="profile-icon">
+            <img src="images/avatars/default_photo.png" alt="User Profile" id="header-avatar">
+            <span id="header-username">Loading...</span>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="avatar-container">
+        <img src="" alt="Profile Avatar" class="avatar" id="avatar">
+        <p class="username" id="username">Loading...</p>
+      </div>
+
+      <h2>Manage Account</h2>
+      <ul class="manage-account">
+        <li><a href="profile-settings.html">Profile Settings</a></li>
+        <li><a href="#" onclick="logout()">Log Out</a></li>
+      </ul>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <h2>Account Info</h2>
+      <div class="account-info">
+        <label for="email">Email</label>
+        <input type="email" id="email" readonly>
+
+        <label for="address">Address</label>
+        <input type="text" id="address" readonly>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" readonly>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const userId = localStorage.getItem('userId');
+
+    async function fetchUserProfile() {
+      if (!userId) {
+        alert("No user ID found. Please log in again.");
+        window.location.href = "sign-in.html";
+        return;
+      }
+
+      try {
+        const response = await fetch(`/user/${userId}`);
+        const user = await response.json();
+
+        if (response.ok) {
+          document.getElementById('email').value = user.email || 'Not set';
+          document.getElementById('username').innerText = user.username || 'User';
+          document.getElementById('address').value = user.address || 'Not set';
+          document.getElementById('phone').value = user.phone || 'Not set';
+
+          // Set avatar image (you can use default if not provided)
+          const avatarElement = document.getElementById('avatar');
+          avatarElement.src = user.avatar || 'images/avatars/default_photo.png';
+        } else {
+          alert(user.message || "Failed to load profile.");
+        }
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+        alert('An error occurred while loading your profile.');
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('userId');
+      window.location.href = "sign-in.html";
+    }
+
+    // Fetch user profile on page load
+    fetchUserProfile();
+
+    // Load user info into header
+    async function loadHeaderUserInfo() {
+      const userId = localStorage.getItem('userId');
+
+      if (!userId) {
+        return; // No user logged in
+      }
+
+      try {
+        const response = await fetch('/user/' + userId);
+        const user = await response.json();
+
+        const usernameElement = document.getElementById('header-username');
+        const avatarElement = document.getElementById('header-avatar');
+
+        if (response.ok) {
+          usernameElement.innerText = user.username || 'User';
+          avatarElement.src = user.avatar || 'images/avatars/default_photo.png';
+        } else {
+          usernameElement.innerText = 'User';
+          avatarElement.src = 'images/avatars/default_photo.png';
+        }
+      } catch (error) {
+        console.error('Error loading user info:', error);
+        document.getElementById('header-username').innerText = 'User';
+        document.getElementById('header-avatar').src = 'images/avatars/default_photo.png';
+      }
+    }
+
+    // Run on page load
+    loadHeaderUserInfo();
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,306 @@
+<!-- profile-settings.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile Settings</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Embedded Styles for Consistent Purple Theme -->
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #a64ca6;
+      /* Soft purple */
+      color: white;
+    }
+
+    /* Header Styling */
+    header {
+      background-color: #5e1b79;
+      /* Darker purple header */
+      color: white;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .logo a {
+      color: white;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .center-nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    .center-nav a,
+    .center-nav select {
+      color: white;
+      background-color: #5e1b79;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .center-nav select {
+      padding: 5px;
+    }
+
+    .center-nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* User Profile Styling */
+    .user-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-icon {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .profile-icon img {
+      border-radius: 50%;
+      border: 2px solid white;
+      width: 30px;
+      height: 30px;
+      object-fit: cover;
+    }
+
+    .profile-icon span {
+      font-size: 14px;
+      color: white;
+      font-weight: bold;
+    }
+
+    main {
+      padding: 40px 20px;
+      max-width: 600px;
+      margin: auto;
+      background-color: white;
+      color: black;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      color: #5e1b79;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #5e1b79;
+    }
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    button[type="submit"] {
+      margin-top: 25px;
+      padding: 12px;
+      background-color: #5e1b79;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #8a2be2;
+    }
+
+    .cancel-btn {
+      margin-top: 15px;
+      background-color: #ccc;
+      color: black;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .cancel-btn:hover {
+      background-color: #bbb;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <a href="product.html">Residence Mart</a>
+      </div>
+      <nav class="center-nav">
+        <!--<select id="categories" onchange="filterProducts()">
+          <option value="">All Categories</option>
+          <option value="food-beverages">Food & Beverages</option>
+          <option value="personal-care">Personal Care</option>
+          <option value="household-essential">Household Essential</option>
+          <option value="stationery">Stationery</option>
+          <option value="electronics">Electronics</option>
+          <option value="health-wellness">Health & Wellness</option>
+        </select>-->
+        <a href="about-us.html">About Us</a>
+        <a href="contact.html">Contact/Feedback</a>
+        <a href="cart.html">Cart</a>
+      </nav>
+      <div class="user-profile">
+        <a href="user-profile.html">
+          <div class="profile-icon">
+            <img src="images/avatars/default_photo.png" alt="User Profile" id="header-avatar">
+            <span id="header-username">Loading...</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <h1>Profile Settings</h1>
+    <form id="update-profile-form">
+      <label for="username">Username:</label>
+      <input type="text" id="username" placeholder="Enter your username">
+
+      <label for="address">Address:</label>
+      <input type="text" id="address" placeholder="Enter your address">
+
+      <label for="phone">Phone:</label>
+      <input type="tel" id="phone" placeholder="Enter your phone number">
+
+      <button type="submit">Save Changes</button>
+    </form>
+    <button class="cancel-btn" onclick="cancelChanges()">Cancel</button>
+  </main>
+
+  <script>
+    const userId = localStorage.getItem('userId');
+
+    async function fetchUserProfile() {
+      if (!userId) {
+        alert("No user ID found. Please log in again.");
+        window.location.href = "sign-in.html";
+        return;
+      }
+
+      try {
+        const response = await fetch(`/user/${userId}`);
+        const user = await response.json();
+
+        if (response.ok) {
+          document.getElementById('username').value = user.username || '';
+          document.getElementById('address').value = user.address || '';
+          document.getElementById('phone').value = user.phone || '';
+        } else {
+          alert(user.message || "Failed to load profile.");
+        }
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+        alert('An error occurred while loading your profile.');
+      }
+    }
+
+    document.getElementById('update-profile-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const username = document.getElementById('username').value;
+      const address = document.getElementById('address').value;
+      const phone = document.getElementById('phone').value;
+
+      try {
+        const response = await fetch('/update-profile', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({userId, username, address, phone})
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert(result.message || "Profile updated successfully!");
+          window.location.href = "user-profile.html";
+        } else {
+          alert(result.message || "Failed to update profile.");
+        }
+      } catch (error) {
+        console.error('Error updating profile:', error);
+        alert('An error occurred. Please try again.');
+      }
+    });
+
+    function cancelChanges() {
+      window.location.href = "user-profile.html";
+    }
+
+    // Fetch user profile on page load
+    fetchUserProfile();
+
+    // Load user info into header
+    async function loadHeaderUserInfo() {
+      const userId = localStorage.getItem('userId');
+
+      if (!userId) {
+        return; // No user logged in
+      }
+
+      try {
+        const response = await fetch('/user/' + userId);
+        const user = await response.json();
+
+        const usernameElement = document.getElementById('header-username');
+        const avatarElement = document.getElementById('header-avatar');
+
+        if (response.ok) {
+          usernameElement.innerText = user.username || 'User';
+          avatarElement.src = user.avatar || 'images/avatars/default_photo.png';
+        } else {
+          usernameElement.innerText = 'User';
+          avatarElement.src = 'images/avatars/default_photo.png';
+        }
+      } catch (error) {
+        console.error('Error loading user info:', error);
+        document.getElementById('header-username').innerText = 'User';
+        document.getElementById('header-avatar').src = 'images/avatars/default_photo.png';
+      }
+    }
+
+    // Run on page load
+    loadHeaderUserInfo();
+  </script>
+</body>
+
+</html>

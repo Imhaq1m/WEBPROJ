@@ -1,0 +1,209 @@
+<!-- product-page.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Custom Styles for Purple Theme -->
+  <style>
+    /* Set overall background color */
+    body {
+      background-color: #a64ca6;
+      /* Purple background */
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    main h1 {
+      color: white;
+    }
+
+    /* Header Styling */
+    header {
+      background-color: #5e1b79;
+      /* Darker purple header */
+      color: white;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .logo a {
+      color: white;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .center-nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    .center-nav a,
+    .center-nav select {
+      color: white;
+      background-color: #5e1b79;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .center-nav select {
+      padding: 5px;
+    }
+
+    .center-nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* User Profile Styling */
+    .user-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-icon {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .profile-icon img {
+      border-radius: 50%;
+      border: 2px solid white;
+      width: 30px;
+      height: 30px;
+      object-fit: cover;
+    }
+
+    .profile-icon span {
+      font-size: 14px;
+      color: white;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <a href="product.html">Residence Mart</a>
+      </div>
+      <nav class="center-nav">
+        <select id="categories" onchange="filterProducts()">
+          <option value="">All Categories</option>
+          <option value="food-beverages">Food & Beverages</option>
+          <option value="personal-care">Personal Care</option>
+          <option value="household-essential">Household Essential</option>
+          <option value="stationery">Stationery</option>
+          <option value="electronics">Electronics</option>
+          <option value="health-wellness">Health & Wellness</option>
+        </select>
+        <a href="about-us.html">About Us</a>
+        <a href="contact.html">Contact/Feedback</a>
+        <a href="cart.html">Cart</a>
+      </nav>
+      <div class="user-profile">
+        <a href="user-profile.html">
+          <div class="profile-icon">
+            <img src="images/avatars/default_photo.png" alt="User Profile" id="header-avatar">
+            <span id="header-username">Loading...</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <h1>Products</h1>
+    <div id="product-list" class="product-grid"></div>
+  </main>
+
+  <script>
+    let allProducts = [];
+
+    fetch('json-product.json')
+      .then(response => response.json())
+      .then(data => {
+        allProducts = data;
+        displayProducts(allProducts);
+      });
+
+    function displayProducts(products) {
+      const productList = document.getElementById('product-list');
+      productList.innerHTML = '';
+
+      products.forEach(product => {
+        productList.innerHTML += `
+          <div class="product" onclick="viewProduct('${product.id}')">
+            <img src="${product.image}" alt="${product.name}" width="150">
+            <p>${product.name}</p>
+            <p>$${product.price}</p>
+          </div>
+        `;
+      });
+    }
+
+    function filterProducts() {
+      const selectedCategory = document.getElementById('categories').value;
+
+      if (selectedCategory === "") {
+        displayProducts(allProducts);
+      } else {
+        const filteredProducts = allProducts.filter(product => product.category === selectedCategory);
+        displayProducts(filteredProducts);
+      }
+    }
+
+    function viewProduct(productId) {
+      window.location.href = `product-detail.html?id=${productId}`;
+    }
+
+    // Load user info into header
+    async function loadHeaderUserInfo() {
+      const userId = localStorage.getItem('userId');
+
+      if (!userId) {
+        return; // No user logged in
+      }
+
+      try {
+        const response = await fetch('/user/' + userId);
+        const user = await response.json();
+
+        const usernameElement = document.getElementById('header-username');
+        const avatarElement = document.getElementById('header-avatar');
+
+        if (response.ok) {
+          usernameElement.innerText = user.username || 'User';
+          avatarElement.src = user.avatar || 'images/avatars/default_photo.png';
+        } else {
+          usernameElement.innerText = 'User';
+          avatarElement.src = 'images/avatars/default_photo.png';
+        }
+      } catch (error) {
+        console.error('Error loading user info:', error);
+        document.getElementById('header-username').innerText = 'User';
+        document.getElementById('header-avatar').src = 'images/avatars/default_photo.png';
+      }
+    }
+
+    // Run on page load
+    loadHeaderUserInfo();
+  </script>
+</body>
+
+</html>

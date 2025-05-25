@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1745133009910",
+    "email": "123@example.com",
+    "password": "123",
+    "username": "123",
+    "address": "123 street",
+    "phone": "0123456789",
+    "avatar": "images/avatars/Kali_linux_wallpaper.jpg"
+  },
+  {
+    "id": "1745133373444",
+    "email": "user@example.com",
+    "password": "user",
+    "username": "user",
+    "address": "user street",
+    "phone": "1231234142",
+    "avatar": ""
+  },
+  {
+    "id": "1745205716362",
+    "email": "john@example.com",
+    "password": "john",
+    "username": "",
+    "address": "",
+    "phone": "",
+    "avatar": ""
+  }
+]

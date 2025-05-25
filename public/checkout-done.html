@@ -1,0 +1,161 @@
+<!-- checkout-done.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout Done</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #a64ca6; /* Soft purple */
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .receipt-card {
+      background-color: white;
+      color: black;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .checkmark {
+      font-size: 80px;
+      color: green;
+    }
+
+    h1 {
+      color: black;
+      margin-top: 10px;
+    }
+
+    .receipt-details {
+      text-align: left;
+      margin: 20px 0;
+    }
+
+    .receipt-details p {
+      margin: 8px 0;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .download-btn {
+      background-color: #5e1b79;
+      color: white;
+    }
+
+    .download-btn:hover {
+      background-color: #8a2be2;
+    }
+
+    .home-btn {
+      background-color: #ccc;
+      color: black;
+    }
+
+    .home-btn:hover {
+      background-color: #bbb;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="receipt-card">
+    <div class="checkmark">&#10004;</div>
+    <h1>Payment Successful!</h1>
+
+    <div class="receipt-details" id="receipt">
+      <p><strong>Order Summary:</strong></p>
+      <p>Subtotal: $<span id="subtotal">0.00</span></p>
+      <p>Shipping: $<span id="shipping-cost">0.00</span></p>
+      <p><strong>Total: $<span id="total-price">0.00</span></strong></p>
+
+      <p><strong>Payment Method:</strong> <span id="payment-method">QR Code</span></p>
+    </div>
+
+    <div class="button-group">
+      <button class="btn download-btn" onclick="downloadReceipt()">Download Receipt</button>
+      <button class="btn home-btn" onclick="returnHome()">Return Home</button>
+    </div>
+  </div>
+
+  <script>
+    // Retrieve cart data from localStorage
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let subtotal = 0;
+
+    // Calculate subtotal
+    cart.forEach(item => {
+      subtotal += item.price * item.quantity;
+    });
+
+    // Shipping cost logic
+    const shippingMethod = localStorage.getItem('shipping-method') || 'self-pickup';
+    const shippingCost = shippingMethod === 'delivery' ? 5 : 0;
+
+    // Total price calculation
+    const total = subtotal + shippingCost;
+
+    // Payment method
+    const paymentMethod = localStorage.getItem('payment-method') || 'qr-code';
+
+    // Display values on the page
+    document.getElementById('subtotal').innerText = subtotal.toFixed(2);
+    document.getElementById('shipping-cost').innerText = shippingCost.toFixed(2);
+    document.getElementById('total-price').innerText = total.toFixed(2);
+    document.getElementById('payment-method').innerText =
+      paymentMethod === 'qr-code' ? 'QR Code Payment' : 'Cash Payment';
+
+    // Function to generate and download receipt as text file
+    function downloadReceipt() {
+      const receiptText = `
+Residence Mart - Receipt
+
+Order Summary:
+Subtotal: $${subtotal.toFixed(2)}
+Shipping: $${shippingCost.toFixed(2)}
+Total: $${total.toFixed(2)}
+
+Payment Method: ${paymentMethod === 'qr-code' ? 'QR Code Payment' : 'Cash Payment'}
+
+Thank you for your purchase!
+`.trim();
+
+      const blob = new Blob([receiptText], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'receipt.txt';
+      link.click();
+    }
+
+    // Return to product page
+    function returnHome() {
+      window.location.href = "product.html";
+    }
+  </script>
+</body>
+</html>
