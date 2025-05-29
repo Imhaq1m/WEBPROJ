@@ -1,15 +1,189 @@
-<!-- profile-settings.html -->
+<!-- checkout.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile Settings</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout</title>
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Embedded Styles for Consistent Purple Theme -->
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #a64ca6;
+      color: white;
+    }
+
+    header {
+      background-color: #5e1b79;
+      color: white;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .logo a {
+      color: white;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .center-nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    .center-nav a,
+    .center-nav select {
+      color: white;
+      background-color: #5e1b79;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .center-nav select {
+      padding: 5px;
+    }
+
+    .center-nav a:hover {
+      text-decoration: underline;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-icon {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .profile-icon img {
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      object-fit: cover;
+      border: 2px solid white;
+    }
+
+    .profile-icon span {
+      font-size: 14px;
+      color: white;
+      font-weight: bold;
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .checkout-container {
+      background-color: white;
+      color: black;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h1 {
+      color: black;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    select,
+    input[type="file"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .qr-section {
+      display: none;
+      /* Hidden by default */
+    }
+
+    .qr-section img {
+      width: 200px;
+      height: 200px;
+      display: block;
+      margin: 15px auto;
+    }
+
+    .order-summary {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 6px;
+    }
+
+    .order-summary p {
+      margin: 8px 0;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 25px;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .confirm-btn {
+      background-color: #5e1b79;
+      color: white;
+      margin-right: 10px;
+    }
+
+    .confirm-btn:hover {
+      background-color: #8a2be2;
+    }
+
+    .cancel-btn {
+      background-color: #ccc;
+      color: black;
+      margin-left: 10px;
+    }
+
+    .cancel-btn:hover {
+      background-color: #bbb;
+    }
+  </style>
 </head>
 
 <body>
+
   <!-- Header -->
   <header>
     <div class="header-container">
@@ -17,21 +191,16 @@
         <a href="product.html">Residence Mart</a>
       </div>
       <nav class="center-nav">
-        <select id="categories" onchange="filterProducts()">
-          <option value="">All Categories</option>
-          <option value="food-beverages">Food & Beverages</option>
-          <option value="personal-care">Personal Care</option>
-          <option value="household-essential">Household Essential</option>
-          <option value="stationery">Stationery</option>
-          <option value="electronics">Electronics</option>
-          <option value="health-wellness">Health & Wellness</option>
-        </select>
         <a href="about-us.html">About Us</a>
         <a href="contact.html">Contact/Feedback</a>
+        <a href="cart.html">Cart</a>
       </nav>
       <div class="user-profile">
         <a href="user-profile.html">
-          <img src="user-icon.png" alt="User Profile" width="30" height="30">
+          <div class="profile-icon">
+            <img src="images/avatars/default_photo.png" alt="User Profile" id="header-avatar">
+            <span id="header-username">Loading...</span>
+          </div>
         </a>
       </div>
     </div>
@@ -39,79 +208,109 @@
 
   <!-- Main Content -->
   <main>
-    <h1>Profile Settings</h1>
-    <form id="update-profile-form">
-      <label for="username">Username:</label>
-      <input type="text" id="username" placeholder="Enter your username">
+    <div class="checkout-container">
+      <h1>Checkout</h1>
 
-      <label for="address">Address:</label>
-      <input type="text" id="address" placeholder="Enter your address">
+      <!-- Payment Method (Hidden from user, just read from localStorage) -->
+      <input type="hidden" id="payment-method" value="">
+      <input type="hidden" id="shipping-method" value="">
 
-      <label for="phone">Phone:</label>
-      <input type="tel" id="phone" placeholder="Enter your phone number">
+      <!-- QR Code Section -->
+      <div class="qr-section" id="qr-section">
+        <p><strong>Scan the QR Code to Pay:</strong></p>
+        <img src="images/qr-code-sample.png" alt="QR Code" id="qr-image">
+        <label for="receipt-file">Upload Receipt:</label>
+        <input type="file" id="receipt-file">
+      </div>
 
-      <button type="submit">Save Changes</button>
-    </form>
-    <button onclick="cancelChanges()">Cancel</button>
+      <!-- Order Summary -->
+      <div class="order-summary" id="order-summary">
+        <h2>Order Summary</h2>
+        <p>Subtotal: $<span id="subtotal">0</span></p>
+        <p>Shipping: $<span id="shipping-cost">0</span></p>
+        <p><strong>Total: $<span id="total-price">0</span></strong></p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="button-group">
+        <button class="confirm-btn" onclick="confirmPayment()">Confirm Payment</button>
+        <button class="cancel-btn" onclick="cancelPayment()">Cancel</button>
+      </div>
+    </div>
   </main>
 
   <script>
-    const userId = localStorage.getItem('userId');
+    // Retrieve cart data
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let subtotal = 0;
 
-    async function fetchUserProfile() {
-      try {
-        const response = await fetch(`/user/${userId}`);
-        const user = await response.json();
-
-        if (response.ok) {
-          document.getElementById('username').value = user.username || '';
-          document.getElementById('address').value = user.address || '';
-          document.getElementById('phone').value = user.phone || '';
-        } else {
-          alert(user.message);
-        }
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
-        alert('An error occurred. Please try again.');
-      }
-    }
-
-    document.getElementById('update-profile-form').addEventListener('submit', async (event) => {
-      event.preventDefault();
-
-      const username = document.getElementById('username').value;
-      const address = document.getElementById('address').value;
-      const phone = document.getElementById('phone').value;
-
-      try {
-        const response = await fetch(`/update-profile`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({userId, username, address, phone})
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-          alert(result.message);
-          window.location.href = "user-profile.html";
-        } else {
-          alert(result.message);
-        }
-      } catch (error) {
-        console.error('Error updating profile:', error);
-        alert('An error occurred. Please try again.');
-      }
+    // Calculate subtotal
+    cart.forEach(item => {
+      subtotal += item.price * item.quantity;
     });
 
-    function cancelChanges() {
-      window.location.href = "user-profile.html";
+    // Get saved payment and shipping methods
+    const paymentMethod = localStorage.getItem('payment-method') || 'qr-code';
+    const shippingMethod = localStorage.getItem('shipping-method') || 'self-pickup';
+
+    // Display values
+    document.getElementById('subtotal').innerText = subtotal.toFixed(2);
+    document.getElementById('shipping-cost').innerText = (shippingMethod === 'delivery' ? 5 : 0).toFixed(2);
+    const total = subtotal + (shippingMethod === 'delivery' ? 5 : 0);
+    document.getElementById('total-price').innerText = total.toFixed(2);
+
+    // Set hidden inputs for reference
+    document.getElementById('payment-method').value = paymentMethod;
+    document.getElementById('shipping-method').value = shippingMethod;
+
+    // Conditionally show QR section
+    const qrSection = document.getElementById('qr-section');
+    if (paymentMethod === 'qr-code') {
+      qrSection.style.display = 'block';
+    } else {
+      qrSection.style.display = 'none';
     }
 
-    // Fetch user profile on page load
-    fetchUserProfile();
+    // Confirm Payment
+    function confirmPayment() {
+      alert("Payment successful!");
+      window.location.href = "checkout-done.html";
+    }
+
+    // Cancel Payment
+    function cancelPayment() {
+      window.location.href = "cart.html";
+    }
+
+    // Load user info into header
+    async function loadHeaderUserInfo() {
+      const userId = localStorage.getItem('userId');
+
+      if (!userId) return;
+
+      try {
+        const response = await fetch('/user/' + userId);
+        const user = await response.json();
+
+        const usernameElement = document.getElementById('header-username');
+        const avatarElement = document.getElementById('header-avatar');
+
+        if (response.ok) {
+          usernameElement.innerText = user.username || 'User';
+          avatarElement.src = user.avatar || 'images/avatars/default_photo.png';
+        } else {
+          usernameElement.innerText = 'User';
+          avatarElement.src = 'images/avatars/default_photo.png';
+        }
+      } catch (error) {
+        console.error('Error loading user info:', error);
+        document.getElementById('header-username').innerText = 'User';
+        document.getElementById('header-avatar').src = 'images/avatars/default_photo.png';
+      }
+    }
+
+    // Run on page load
+    loadHeaderUserInfo();
   </script>
 </body>
 

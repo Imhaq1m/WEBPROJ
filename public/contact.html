@@ -3,10 +3,151 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact Us</title>
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Embedded Styles for Consistent Purple Theme -->
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #a64ca6;
+      /* Soft purple */
+      color: white;
+    }
+
+    /* Header Styling */
+    header {
+      background-color: #5e1b79;
+      /* Darker purple header */
+      color: white;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .logo a {
+      color: white;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .center-nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    .center-nav a,
+    .center-nav select {
+      color: white;
+      background-color: #5e1b79;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .center-nav select {
+      padding: 5px;
+    }
+
+    .center-nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* User Profile Styling */
+    .user-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-icon {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .profile-icon img {
+      border-radius: 50%;
+      border: 2px solid white;
+      width: 30px;
+      height: 30px;
+      object-fit: cover;
+    }
+
+    .profile-icon span {
+      font-size: 14px;
+      color: white;
+      font-weight: bold;
+    }
+
+    main {
+      padding: 40px 20px;
+      max-width: 600px;
+      margin: auto;
+      background-color: white;
+      color: black;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      color: #5e1b79;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #5e1b79;
+    }
+
+    input,
+    textarea {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      resize: vertical;
+    }
+
+    button[type="submit"] {
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #5e1b79;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #8a2be2;
+    }
+
+    .contact-info {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+    }
+
+    .contact-info p {
+      margin: 8px 0;
+    }
+  </style>
 </head>
 
 <body>
@@ -17,7 +158,7 @@
         <a href="product.html">Residence Mart</a>
       </div>
       <nav class="center-nav">
-        <select id="categories" onchange="filterProducts()">
+        <!--<select id="categories" onchange="filterProducts()">
           <option value="">All Categories</option>
           <option value="food-beverages">Food & Beverages</option>
           <option value="personal-care">Personal Care</option>
@@ -25,11 +166,16 @@
           <option value="stationery">Stationery</option>
           <option value="electronics">Electronics</option>
           <option value="health-wellness">Health & Wellness</option>
-        </select>
+        </select>-->
         <a href="about-us.html">About Us</a>
         <a href="contact.html">Contact/Feedback</a>
         <a href="cart.html">Cart</a>
       </nav>
+      <!--<div class="user-profile">
+        <a href="user-profile.html">
+          <img src="user-icon.png" alt="User Profile" width="30" height="30">
+        </a>
+      </div>-->
       <div class="user-profile">
         <a href="user-profile.html">
           <div class="profile-icon">
@@ -38,7 +184,6 @@
           </div>
         </a>
       </div>
-
     </div>
   </header>
 
@@ -48,19 +193,34 @@
     <form onsubmit="submitFeedback(event)">
       <label for="subject">Subject:</label>
       <input type="text" id="subject" placeholder="Enter subject" required>
+
       <label for="message">Message:</label>
       <textarea id="message" rows="5" placeholder="Enter your message" required></textarea>
+
       <button type="submit">Submit</button>
     </form>
-    <p>Contact Information:</p>
-    <p>Phone: 123-456-7890</p>
-    <p>Email: mart@example.com</p>
+
+    <div class="contact-info">
+      <p><strong>Contact Information:</strong></p>
+      <p>📞 Phone: 123-456-7890</p>
+      <p>📧 Email: mart@example.com</p>
+    </div>
   </main>
 
   <script>
     function submitFeedback(event) {
       event.preventDefault();
+      const subject = document.getElementById('subject').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (!subject || !message) {
+        alert("Please fill out both subject and message.");
+        return;
+      }
+
       alert("Thank you for your feedback!");
+      document.getElementById('subject').value = '';
+      document.getElementById('message').value = '';
     }
 
     // Load user info into header
@@ -68,23 +228,16 @@
       const userId = localStorage.getItem('userId');
 
       if (!userId) {
-        return; // No user logged in
+        document.getElementById('header-username').innerText = 'Guest';
+        return;
       }
 
       try {
-        const response = await fetch('/user/' + userId);
+        const response = await fetch(`/user/${userId}`);
         const user = await response.json();
 
-        const usernameElement = document.getElementById('header-username');
-        const avatarElement = document.getElementById('header-avatar');
-
-        if (response.ok) {
-          usernameElement.innerText = user.username || 'User';
-          avatarElement.src = user.avatar || 'images/avatars/default_photo.png';
-        } else {
-          usernameElement.innerText = 'User';
-          avatarElement.src = 'images/avatars/default_photo.png';
-        }
+        document.getElementById('header-username').innerText = user.username || 'User';
+        document.getElementById('header-avatar').src = user.avatar || 'images/avatars/default_photo.png';
       } catch (error) {
         console.error('Error loading user info:', error);
         document.getElementById('header-username').innerText = 'User';
@@ -94,7 +247,6 @@
 
     // Run on page load
     loadHeaderUserInfo();
-
   </script>
 </body>
 

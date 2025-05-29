@@ -3,10 +3,143 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About Us</title>
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Embedded Styles for Consistent Purple Theme -->
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #a64ca6;
+      /* Soft purple */
+      color: white;
+    }
+
+    header {
+      background-color: #5e1b79;
+      /* Darker purple */
+      color: white;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .logo a {
+      color: white;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .center-nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    .center-nav select,
+    .center-nav a {
+      color: white;
+      background-color: #5e1b79;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .center-nav select {
+      padding: 5px;
+    }
+
+    .center-nav a:hover {
+      text-decoration: underline;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-icon {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .profile-icon img {
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      object-fit: cover;
+      border: 2px solid white;
+    }
+
+    .profile-icon span {
+      font-size: 14px;
+      color: white;
+      font-weight: bold;
+    }
+
+    main {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+      background-color: white;
+      color: black;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    h1,
+    h2 {
+      color: #5e1b79;
+      text-align: center;
+    }
+
+    p {
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    .team-members {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .team-member {
+      text-align: center;
+      max-width: 200px;
+    }
+
+    .team-member img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #5e1b79;
+      margin-bottom: 10px;
+    }
+
+    .team-member p {
+      margin: 0;
+      font-weight: bold;
+    }
+
+    .team-member p small {
+      font-weight: normal;
+      color: #555;
+      display: block;
+      font-size: 14px;
+    }
+  </style>
 </head>
 
 <body>
@@ -17,7 +150,7 @@
         <a href="product.html">Residence Mart</a>
       </div>
       <nav class="center-nav">
-        <select id="categories" onchange="filterProducts()">
+        <!--<select id="categories" onchange="filterProducts()">
           <option value="">All Categories</option>
           <option value="food-beverages">Food & Beverages</option>
           <option value="personal-care">Personal Care</option>
@@ -25,11 +158,16 @@
           <option value="stationery">Stationery</option>
           <option value="electronics">Electronics</option>
           <option value="health-wellness">Health & Wellness</option>
-        </select>
+        </select>-->
         <a href="about-us.html">About Us</a>
         <a href="contact.html">Contact/Feedback</a>
         <a href="cart.html">Cart</a>
       </nav>
+      <!--<div class="user-profile">
+        <a href="user-profile.html">
+          <img src="user-icon.png" alt="User Profile" width="30" height="30">
+        </a>
+      </div>-->
       <div class="user-profile">
         <a href="user-profile.html">
           <div class="profile-icon">
@@ -38,36 +176,57 @@
           </div>
         </a>
       </div>
-
     </div>
   </header>
 
   <!-- Main Content -->
   <main>
     <h1>About Us</h1>
+
     <p>Welcome to Residence Mart, your one-stop shop for all your daily needs! We are committed to providing
       high-quality products at affordable prices, ensuring convenience and satisfaction for our valued customers.</p>
+
     <p>Our mission is to make shopping easier for residents by offering a wide range of categories, including food &
       beverages, personal care, household essentials, stationery, electronics, and health & wellness products.</p>
+
     <p>At Residence Mart, we believe in fostering strong relationships with our customers and communities. Whether
       you're looking for groceries, household items, or tech gadgets, we've got you covered!</p>
 
     <h2>Meet Our Team</h2>
+
     <div class="team-members">
       <div class="team-member">
-        <img src="https://via.placeholder.com/100" alt="Team Member 1">
-        <p><strong>John Doe</strong><br>Founder & CEO</p>
+        <img src="https://via.placeholder.com/100 " alt="Team Member 1">
+        <p>John Doe<br><small>Founder & CEO</small></p>
       </div>
       <div class="team-member">
-        <img src="https://via.placeholder.com/100" alt="Team Member 2">
-        <p><strong>Jane Smith</strong><br>Operations Manager</p>
+        <img src="https://via.placeholder.com/100 " alt="Team Member 2">
+        <p>Jane Smith<br><small>Operations Manager</small></p>
       </div>
       <div class="team-member">
-        <img src="https://via.placeholder.com/100" alt="Team Member 3">
-        <p><strong>Alex Johnson</strong><br>Customer Support Lead</p>
+        <img src="https://via.placeholder.com/100 " alt="Team Member 3">
+        <p>Alex Johnson<br><small>Customer Support Lead</small></p>
       </div>
     </div>
   </main>
+
+  <script>
+    const userId = localStorage.getItem('userId');
+
+    if (userId) {
+      fetch(`/user/${userId}`)
+        .then(response => response.json())
+        .then(user => {
+          document.getElementById('header-username').innerText = user.username || 'User';
+          document.getElementById('header-avatar').src = user.avatar || 'images/avatars/default_photo.png';
+        })
+        .catch(() => {
+          document.getElementById('header-username').innerText = 'User';
+        });
+    } else {
+      document.getElementById('header-username').innerText = 'Guest';
+    }
+  </script>
 </body>
 
 </html>

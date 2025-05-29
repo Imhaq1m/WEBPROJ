@@ -14,14 +14,11 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: #a64ca6;
-      /* Soft purple */
       color: white;
     }
 
-    /* Header Styling */
     header {
       background-color: #5e1b79;
-      /* Darker purple header */
       color: white;
     }
 
@@ -61,7 +58,6 @@
       text-decoration: underline;
     }
 
-    /* User Profile Styling */
     .user-profile {
       display: flex;
       align-items: center;
@@ -71,15 +67,14 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      cursor: pointer;
     }
 
     .profile-icon img {
       border-radius: 50%;
-      border: 2px solid white;
       width: 30px;
       height: 30px;
       object-fit: cover;
+      border: 2px solid white;
     }
 
     .profile-icon span {
@@ -88,15 +83,13 @@
       font-weight: bold;
     }
 
-
     main {
       padding: 40px 20px;
       max-width: 900px;
       margin: auto;
     }
 
-    h1,
-    h2 {
+    h1 {
       color: white;
     }
 
@@ -121,10 +114,6 @@
       border-bottom: none;
     }
 
-    .cart-item span {
-      margin-right: 20px;
-    }
-
     .cart-item div button {
       margin: 0 5px;
       padding: 5px 10px;
@@ -139,29 +128,39 @@
       background-color: #0056b3;
     }
 
-    .cart-summary p {
-      font-size: 16px;
-      margin: 10px 0;
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
     }
 
-    .summary-total {
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .cart-summary button {
+    button[type="submit"] {
+      margin-top: 25px;
       background-color: #5e1b79;
       color: white;
       border: none;
-      padding: 12px 20px;
+      padding: 12px;
       font-size: 16px;
       border-radius: 4px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
     }
 
-    .cart-summary button:hover {
+    button[type="submit"]:hover {
       background-color: #8a2be2;
+    }
+
+    .cancel-btn {
+      background-color: #ccc;
+      color: black;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .cancel-btn:hover {
+      background-color: #bbb;
     }
   </style>
 </head>
@@ -175,15 +174,6 @@
         <a href="product.html">Residence Mart</a>
       </div>
       <nav class="center-nav">
-        <!--<select id="categories" onchange="filterProducts()">
-          <option value="">All Categories</option>
-          <option value="food-beverages">Food & Beverages</option>
-          <option value="personal-care">Personal Care</option>
-          <option value="household-essential">Household Essential</option>
-          <option value="stationery">Stationery</option>
-          <option value="electronics">Electronics</option>
-          <option value="health-wellness">Health & Wellness</option>
-        </select>-->
         <a href="about-us.html">About Us</a>
         <a href="contact.html">Contact/Feedback</a>
         <a href="cart.html">Cart</a>
@@ -196,7 +186,6 @@
           </div>
         </a>
       </div>
-
     </div>
   </header>
 
@@ -213,14 +202,15 @@
       <h2>Summary</h2>
       <p>Total Products: <span id="total-products">0</span></p>
       <p>Subtotal: $<span id="subtotal">0</span></p>
-      <p>Shipping:
-        <select id="shipping-method">
-          <option value="self-pickup">Self-Pickup (Free)</option>
-          <option value="delivery">Delivery ($5)</option>
-        </select>
-      </p>
-      <p class="summary-total">Total: $<span id="total-price">0</span></p>
-      <button onclick="checkout()">Continue to Checkout</button>
+      <label for="payment-method">Select Payment Method:</label>
+      <select id="payment-method" onchange="updatePaymentMethod()">
+        <option value="qr-code">QR Code Payment</option>
+        <option value="cash">Cash Payment</option>
+      </select>
+    </div>
+
+    <div class="button-group">
+      <button type="submit" onclick="goToCheckout()">Continue to Checkout</button>
     </div>
   </main>
 
@@ -230,7 +220,7 @@
     let subtotal = 0;
 
     function renderCart() {
-      cartItemsList.innerHTML = ''; // Clear previous listings
+      cartItemsList.innerHTML = '';
       subtotal = 0;
 
       cart.forEach(item => {
@@ -250,18 +240,13 @@
 
       document.getElementById('total-products').innerText = cart.reduce((sum, item) => sum + item.quantity, 0);
       document.getElementById('subtotal').innerText = subtotal.toFixed(2);
-      updateTotal();
     }
 
     function updateQuantity(productId, change) {
       const index = cart.findIndex(item => item.id === productId);
       if (index !== -1) {
         cart[index].quantity += change;
-
-        if (cart[index].quantity < 0) {
-          cart[index].quantity = 0;
-        }
-
+        if (cart[index].quantity < 0) cart[index].quantity = 0;
         localStorage.setItem('cart', JSON.stringify(cart));
         renderCart();
       }
@@ -273,33 +258,31 @@
       renderCart();
     }
 
-    function updateTotal() {
-      const shippingMethod = document.getElementById('shipping-method').value;
-      const shippingCost = shippingMethod === 'delivery' ? 5 : 0;
-      const total = subtotal + shippingCost;
-      document.getElementById('total-price').innerText = total.toFixed(2);
+    function updatePaymentMethod() {
+      const paymentMethod = document.getElementById('payment-method').value;
+      localStorage.setItem('payment-method', paymentMethod);
     }
 
-    document.getElementById('shipping-method').addEventListener('change', updateTotal);
-
-    function checkout() {
-      if (cart.length === 0 || cart.every(item => item.quantity === 0)) {
-        alert("Your cart is empty!");
-      } else {
-        window.location.href = "checkout.html";
+    function goToCheckout() {
+      const paymentMethod = document.getElementById('payment-method').value;
+      if (!paymentMethod) {
+        alert("Please select a payment method.");
+        return;
       }
+
+      // Redirect based on payment method (optional)
+      window.location.href = "checkout.html";
     }
 
-    // Initial render of the cart
-    renderCart();
+    function cancelPayment() {
+      window.location.href = "cart.html";
+    }
 
     // Load user info into header
     async function loadHeaderUserInfo() {
       const userId = localStorage.getItem('userId');
 
-      if (!userId) {
-        return; // No user logged in
-      }
+      if (!userId) return;
 
       try {
         const response = await fetch('/user/' + userId);
@@ -323,7 +306,12 @@
     }
 
     // Run on page load
+    renderCart();
     loadHeaderUserInfo();
+
+    // Set saved payment method on load
+    const savedPayment = localStorage.getItem('payment-method') || 'qr-code';
+    document.getElementById('payment-method').value = savedPayment;
   </script>
 </body>
 
