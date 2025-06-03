@@ -20,7 +20,7 @@
 
     /* Header Styling */
     header {
-      background-color: #5e1b79;
+      background-color: #6D3399;
       /* Darker purple header */
       color: white;
     }
@@ -47,8 +47,7 @@
     .center-nav a,
     .center-nav select {
       color: white;
-      background-color: #5e1b79;
-      border: none;
+      background-color: #6 border: none;
       font-size: 16px;
       cursor: pointer;
     }
@@ -146,7 +145,9 @@
   <header>
     <div class="header-container">
       <div class="logo">
-        <a href="product.html">Residence Mart</a>
+        <a href="product.html">
+          <img src="images/extras/KSE_logo.png" alt="KSE logo" style="width:180px;height:60px;">
+        </a>
       </div>
       <nav class="center-nav">
         <!--<select id="categories" onchange="filterProducts()">
@@ -218,7 +219,7 @@
           document.getElementById('product-name').innerText = product.name;
           document.getElementById('product-image').src = product.image;
           document.getElementById('product-description').innerText = `Description: ${product.description}`;
-          document.getElementById('product-price').innerText = `Price: $${product.price}`;
+          document.getElementById('product-price').innerText = `Price: RM${product.price}`;
         } else {
           document.querySelector('.product-card').innerHTML = `
             <h2>Product Not Found</h2>

@@ -1,15 +1,21 @@
 <!-- checkout-done.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Checkout Done</title>
+
+  <!-- jsPDF Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #a64ca6; /* Soft purple */
+      background-color: #a64ca6;
+      /* Soft purple */
       color: white;
       display: flex;
       justify-content: center;
@@ -82,6 +88,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="receipt-card">
@@ -90,15 +97,14 @@
 
     <div class="receipt-details" id="receipt">
       <p><strong>Order Summary:</strong></p>
-      <p>Subtotal: $<span id="subtotal">0.00</span></p>
-      <p>Shipping: $<span id="shipping-cost">0.00</span></p>
-      <p><strong>Total: $<span id="total-price">0.00</span></strong></p>
-
-      <p><strong>Payment Method:</strong> <span id="payment-method">QR Code</span></p>
+      <p>Subtotal: RM<span id="subtotal">0.00</span></p>
+      <p>Shipping: RM<span id="shipping-cost">0.00</span></p>
+      <p><strong>Total: RM<span id="total-price">0.00</span></strong></p>
+      <p><strong>Payment Method:</strong> <span id="payment-method">QR Code Payment</span></p>
     </div>
 
     <div class="button-group">
-      <button class="btn download-btn" onclick="downloadReceipt()">Download Receipt</button>
+      <button class="btn download-btn" onclick="downloadReceipt()">Download Receipt (PDF)</button>
       <button class="btn home-btn" onclick="returnHome()">Return Home</button>
     </div>
   </div>
@@ -130,26 +136,33 @@
     document.getElementById('payment-method').innerText =
       paymentMethod === 'qr-code' ? 'QR Code Payment' : 'Cash Payment';
 
-    // Function to generate and download receipt as text file
+    // Generate and download PDF receipt
     function downloadReceipt() {
-      const receiptText = `
-Residence Mart - Receipt
+      const {jsPDF} = window.jspdf;
+      const doc = new jsPDF();
 
-Order Summary:
-Subtotal: $${subtotal.toFixed(2)}
-Shipping: $${shippingCost.toFixed(2)}
-Total: $${total.toFixed(2)}
+      // Add content to PDF
+      doc.setFontSize(18);
+      doc.text("Residence Mart - Receipt", 20, 20);
 
-Payment Method: ${paymentMethod === 'qr-code' ? 'QR Code Payment' : 'Cash Payment'}
+      doc.setFontSize(14);
+      doc.text("Order Summary", 20, 30);
 
-Thank you for your purchase!
-`.trim();
+      doc.setFontSize(12);
+      doc.text(`Subtotal: RM${subtotal.toFixed(2)}`, 20, 40);
+      doc.text(`Shipping: RM${shippingCost.toFixed(2)}`, 20, 50);
+      doc.text(`Total: RM${total.toFixed(2)}`, 20, 60);
+      doc.text(`Payment Method: ${paymentMethod === 'qr-code' ? 'QR Code Payment' : 'Cash Payment'}`, 20, 70);
 
-      const blob = new Blob([receiptText], { type: 'text/plain' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'receipt.txt';
-      link.click();
+      doc.setDrawColor(150);
+      doc.line(20, 75, 190, 75); // Line separator
+
+      doc.setFontSize(10);
+      doc.text("Thank you for your purchase!", 20, 85);
+      doc.text("We appreciate your support.", 20, 95);
+
+      // Save the PDF
+      doc.save("Receipt.pdf");
     }
 
     // Return to product page
@@ -158,4 +171,5 @@ Thank you for your purchase!
     }
   </script>
 </body>
+
 </html>

@@ -19,7 +19,7 @@
     }
 
     header {
-      background-color: #5e1b79;
+      background-color: #6D3399;
       /* Darker purple header */
       color: white;
     }
@@ -46,7 +46,7 @@
     .center-nav a,
     .center-nav select {
       color: white;
-      background-color: #5e1b79;
+      background-color: #6D3399;
       border: none;
       font-size: 16px;
       cursor: pointer;
@@ -191,7 +191,9 @@
   <header>
     <div class="header-container">
       <div class="logo">
-        <a href="product.html">Residence Mart</a>
+        <a href="product.html">
+          <img src="images/extras/KSE_logo.png" alt="KSE logo" style="width:180px;height:60px;">
+        </a>
       </div>
       <nav class="center-nav">
         <a href="about-us.html">About Us</a>
@@ -225,23 +227,24 @@
       <label for="shipping-method">Select Shipping Method:</label>
       <select id="shipping-method" onchange="updateTotal()">
         <option value="self-pickup">Self-Pickup (Free)</option>
-        <option value="delivery">Delivery ($5)</option>
+        <option value="delivery">Delivery (RM5)</option>
       </select>
 
       <!-- QR Code Section -->
       <div class="qr-section" id="qr-section">
         <p><strong>Scan the QR Code to Pay:</strong></p>
         <img src="images/avatars/qr_code.png" alt="QR Code" id="qr-image">
-        <label for="receipt-file">Upload Receipt:</label>
+        <a href="images/avatars/qr_code.png" download><button>Download QR code</button></a>
+        <label for=" receipt-file">Upload Receipt:</label>
         <input type="file" id="receipt-file">
       </div>
 
       <!-- Order Summary -->
       <div class="order-summary" id="order-summary">
         <h2>Order Summary</h2>
-        <p>Subtotal: $<span id="subtotal">0</span></p>
-        <p>Shipping: $<span id="shipping-cost">0</span></p>
-        <p><strong>Total: $<span id="total-price">0</span></strong></p>
+        <p>Subtotal: RM<span id="subtotal">0</span></p>
+        <p>Shipping: RM<span id="shipping-cost">0</span></p>
+        <p><strong>Total: RM<span id="total-price">0</span></strong></p>
       </div>
 
       <!-- Action Buttons -->

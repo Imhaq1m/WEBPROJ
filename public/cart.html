@@ -18,7 +18,7 @@
     }
 
     header {
-      background-color: #5e1b79;
+      background-color: #653399;
       color: white;
     }
 
@@ -44,7 +44,7 @@
     .center-nav a,
     .center-nav select {
       color: white;
-      background-color: #5e1b79;
+      background-color: #6D3399;
       border: none;
       font-size: 16px;
       cursor: pointer;
@@ -171,7 +171,9 @@
   <header>
     <div class="header-container">
       <div class="logo">
-        <a href="product.html">Residence Mart</a>
+        <a href="product.html">
+          <img src="images/extras/KSE_logo.png" alt="KSE logo" style="width:180px;height:60px;">
+        </a>
       </div>
       <nav class="center-nav">
         <a href="about-us.html">About Us</a>
@@ -201,7 +203,7 @@
     <div class="cart-summary">
       <h2>Summary</h2>
       <p>Total Products: <span id="total-products">0</span></p>
-      <p>Subtotal: $<span id="subtotal">0</span></p>
+      <p>Subtotal: RM<span id="subtotal">0</span></p>
       <label for="payment-method">Select Payment Method:</label>
       <select id="payment-method" onchange="updatePaymentMethod()">
         <option value="qr-code">QR Code Payment</option>
@@ -227,7 +229,7 @@
         subtotal += item.price * item.quantity;
         cartItemsList.innerHTML += `
           <div class="cart-item">
-            <span>${item.name} ($${item.price})</span>
+            <span>${item.name} (RM ${item.price})</span>
             <div>
               <button onclick="updateQuantity('${item.id}', -1)">-</button>
               <span>${item.quantity}</span>
@@ -265,12 +267,23 @@
 
     function goToCheckout() {
       const paymentMethod = document.getElementById('payment-method').value;
+
+      // Check if cart is empty
+      if (cart.length === 0 || cart.every(item => item.quantity <= 0)) {
+        alert("Your cart is empty!");
+        return;
+      }
+
+      // Check if payment method is selected
       if (!paymentMethod) {
         alert("Please select a payment method.");
         return;
       }
 
-      // Redirect based on payment method (optional)
+      // Save payment method
+      localStorage.setItem('payment-method', paymentMethod);
+
+      // Proceed to checkout
       window.location.href = "checkout.html";
     }
 
