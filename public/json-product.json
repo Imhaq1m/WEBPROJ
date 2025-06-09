@@ -1,65 +1,223 @@
 [
   {
     "id": "1",
-    "name": "Bread",
-    "price": 2.5,
-    "image": "bread.jpg",
-    "description": "Freshly baked bread.",
-    "stock": 50,
-    "category": "food-beverages"
+    "name": "Earphone",
+    "price": 15.99,
+    "image": "images/products/electronics/earphone.png",
+    "description": "Wireless Bluetooth earphones with noise cancellation.",
+    "stock": 30,
+    "category": "electronics"
   },
   {
     "id": "2",
-    "name": "Milk",
-    "price": 1.8,
-    "image": "milk.jpg",
-    "description": "Fresh milk from local farms.",
+    "name": "Extension Cord",
+    "price": 12.49,
+    "image": "images/products/electronics/extensions.png",
+    "description": "Multi-outlet extension cord for home or office use.",
+    "stock": 20,
+    "category": "electronics"
+  },
+  {
+    "id": "3",
+    "name": "Pendrive",
+    "price": 8.99,
+    "image": "images/products/electronics/pendrive.png",
+    "description": "USB flash drive with 64GB storage capacity.",
+    "stock": 50,
+    "category": "electronics"
+  },
+  {
+    "id": "4",
+    "name": "USB-C Cable",
+    "price": 5.99,
+    "image": "images/products/electronics/USB-C.png",
+    "description": "Fast-charging USB-C cable, 1 meter length.",
+    "stock": 60,
+    "category": "electronics"
+  },
+
+  {
+    "id": "5",
+    "name": "Bottled Water",
+    "price": 1.5,
+    "image": "images/products/food-beverages/bottled water.png",
+    "description": "500ml purified bottled water.",
+    "stock": 200,
+    "category": "food-beverages"
+  },
+  {
+    "id": "6",
+    "name": "Chips",
+    "price": 2.0,
+    "image": "images/products/food-beverages/chips.png",
+    "description": "Salted potato chips in a sealed bag.",
     "stock": 100,
     "category": "food-beverages"
   },
   {
-    "id": "3",
-    "name": "Toothpaste",
+    "id": "7",
+    "name": "Cookies",
     "price": 3.0,
-    "image": "toothpaste.jpg",
-    "description": "Fluoride toothpaste for strong teeth.",
-    "stock": 40,
-    "category": "personal-care"
+    "image": "images/products/food-beverages/cookies.png",
+    "description": "Assorted pack of sweet cookies.",
+    "stock": 80,
+    "category": "food-beverages"
   },
   {
-    "id": "4",
-    "name": "Detergent",
-    "price": 5.5,
-    "image": "detergent.jpg",
-    "description": "Powerful detergent for laundry.",
-    "stock": 30,
+    "id": "8",
+    "name": "Soft Drinks",
+    "price": 2.5,
+    "image": "images/products/food-beverages/soft drinks.png",
+    "description": "Carbonated soft drink, 500ml bottle.",
+    "stock": 150,
+    "category": "food-beverages"
+  },
+
+  {
+    "id": "9",
+    "name": "Bandage",
+    "price": 1.0,
+    "image": "images/products/health-wellness/bandage.png",
+    "description": "Adhesive bandages for minor cuts and scrapes.",
+    "stock": 100,
+    "category": "health-wellness"
+  },
+  {
+    "id": "10",
+    "name": "Ointment",
+    "price": 6.5,
+    "image": "images/products/health-wellness/ointment.png",
+    "description": "Healing ointment for skin irritation or wounds.",
+    "stock": 40,
+    "category": "health-wellness"
+  },
+  {
+    "id": "11",
+    "name": "Throat Lozenges",
+    "price": 4.0,
+    "image": "images/products/health-wellness/throat lozenges.png",
+    "description": "Soothing lozenges for sore throat relief.",
+    "stock": 60,
+    "category": "health-wellness"
+  },
+  {
+    "id": "12",
+    "name": "Vitamins",
+    "price": 9.99,
+    "image": "images/products/health-wellness/vitamins.png",
+    "description": "Multivitamin tablets for daily health support.",
+    "stock": 70,
+    "category": "health-wellness"
+  },
+
+  {
+    "id": "13",
+    "name": "Broom",
+    "price": 7.99,
+    "image": "images/products/household-essential/broom.png",
+    "description": "Sturdy broom for cleaning floors and outdoor areas.",
+    "stock": 25,
     "category": "household-essential"
   },
   {
-    "id": "5",
-    "name": "Notebook",
-    "price": 1.2,
-    "image": "notebook.jpg",
-    "description": "A5 size notebook for writing.",
+    "id": "14",
+    "name": "Dish Soap",
+    "price": 3.49,
+    "image": "images/products/household-essential/dish soap.png",
+    "description": "Eco-friendly dish soap for cleaning utensils.",
+    "stock": 90,
+    "category": "household-essential"
+  },
+  {
+    "id": "15",
+    "name": "Laundry Detergent",
+    "price": 14.99,
+    "image": "images/products/household-essential/laundry detergent.png",
+    "description": "Laundry detergent for washing clothes.",
+    "stock": 40,
+    "category": "household-essential"
+  },
+  {
+    "id": "16",
+    "name": "Tissues",
+    "price": 2.0,
+    "image": "images/products/household-essential/tissues.png",
+    "description": "Soft tissue box for personal hygiene.",
     "stock": 60,
+    "category": "household-essential"
+  },
+
+  {
+    "id": "17",
+    "name": "Shampoo",
+    "price": 5.99,
+    "image": "images/products/personal-care/shampoo.png",
+    "description": "Moisturizing shampoo for all hair types.",
+    "stock": 70,
+    "category": "personal-care"
+  },
+  {
+    "id": "18",
+    "name": "Shaving Razor",
+    "price": 4.0,
+    "image": "images/products/personal-care/shaving razor.png",
+    "description": "Disposable shaving razor for smooth shave.",
+    "stock": 50,
+    "category": "personal-care"
+  },
+  {
+    "id": "19",
+    "name": "Soap",
+    "price": 2.99,
+    "image": "images/products/personal-care/soap.png",
+    "description": "Mild bar soap for everyday use.",
+    "stock": 80,
+    "category": "personal-care"
+  },
+  {
+    "id": "20",
+    "name": "Toothpaste",
+    "price": 2.49,
+    "image": "images/products/personal-care/toothpaste.png",
+    "description": "Fluoride toothpaste for fresh breath and clean teeth.",
+    "stock": 100,
+    "category": "personal-care"
+  },
+
+  {
+    "id": "21",
+    "name": "Pencils",
+    "price": 1.0,
+    "image": "images/products/stationery/pencils.png",
+    "description": "Set of 10 HB pencils.",
+    "stock": 120,
     "category": "stationery"
   },
   {
-    "id": "6",
-    "name": "Headphones",
-    "price": 25.0,
-    "image": "headphones.jpg",
-    "description": "Noise-canceling headphones.",
-    "stock": 15,
-    "category": "electronics"
+    "id": "22",
+    "name": "Pens",
+    "price": 1.5,
+    "image": "images/products/stationery/pens.png",
+    "description": "Pack of 5 ballpoint pens.",
+    "stock": 100,
+    "category": "stationery"
   },
   {
-    "id": "7",
-    "name": "Vitamin C",
-    "price": 9.9,
-    "image": "vitamin-c.jpg",
-    "description": "Boost your immune system with Vitamin C.",
-    "stock": 25,
-    "category": "health-wellness"
+    "id": "23",
+    "name": "Rulers",
+    "price": 0.99,
+    "image": "images/products/stationery/rulers.png",
+    "description": "Plastic ruler set (12 inch & 6 inch).",
+    "stock": 80,
+    "category": "stationery"
+  },
+  {
+    "id": "24",
+    "name": "Scissors",
+    "price": 6.99,
+    "image": "images/products/stationery/scissors.png",
+    "description": "Sharp scissors for school or office use.",
+    "stock": 30,
+    "category": "stationery"
   }
 ]
