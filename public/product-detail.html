@@ -137,6 +137,32 @@
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
+
+    .quran-verse {
+      background-color: #5e1b79;
+      /* Darker purple */
+      color: white;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .quran-verse p {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+
+    .quran-verse strong {
+      font-size: 20px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .quran-verse em {
+      font-size: 14px;
+      color: #f9f9f9;
+    }
   </style>
 </head>
 
@@ -179,6 +205,12 @@
     </div>
   </header>
 
+  <!-- Quran Verse Section -->
+  <div class="quran-verse">
+    <p><strong>َلَا تُسْرِفُوا إِنَّهُ لَا يُحِبُّ الْمُسْرِفِينَ</strong></p>
+    <p><em>And do not waste [resources], for indeed, He does not like the wasteful. (Quran 6:141)</em></p>
+  </div>
+
   <!-- Main Content -->
   <main>
     <div class="product-card">
@@ -186,6 +218,7 @@
       <img id="product-image" alt="Product Image">
       <p id="product-description"></p>
       <p id="product-price"></p>
+      <p id="product-stock"></p>
       <button onclick="addToCart()">Add to Cart</button>
 
       <!-- Back to Products Button -->
@@ -220,6 +253,7 @@
           document.getElementById('product-image').src = product.image;
           document.getElementById('product-description').innerText = `Description: ${product.description}`;
           document.getElementById('product-price').innerText = `Price: RM${product.price}`;
+          document.getElementById('product-stock').innerText = `Stock: ${product.stock}`;
         } else {
           document.querySelector('.product-card').innerHTML = `
             <h2>Product Not Found</h2>

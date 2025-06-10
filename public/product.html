@@ -133,6 +133,45 @@
       max-width: 100%;
       height: auto;
     }
+
+    .quran-slideshow {
+      position: relative;
+      margin: auto;
+      padding: 20px;
+      background-color: #5e1b79;
+      /* Darker purple */
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .quote {
+      display: none;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .quote.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .quote p {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+
+    .quote strong {
+      font-size: 20px;
+      color: white;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .quote em {
+      font-size: 14px;
+      color: #f9f9f9;
+      display: block;
+    }
   </style>
 </head>
 
@@ -169,6 +208,26 @@
       </div>
     </div>
   </header>
+
+  <!-- Quran Quotes Slideshow -->
+  <div class="quran-slideshow">
+    <div class="quote active">
+      <p><strong>وَهُوَ الَّذِي يَرْزُقُكُم مِّنَ السَّمَاءِ وَالْأَرْضِ</strong></p>
+      <p><em>"And He it is who provides for you from the heavens and the earth" — Quran 35:3</em></p>
+    </div>
+    <div class="quote">
+      <p><strong>وَقُولُوا لِلنَّاسِ حُسْنًا</strong></p>
+      <p><em>"And speak to people good [words]" — Quran 2:83</em></p>
+    </div>
+    <div class="quote">
+      <p><strong>يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَقُولُوا قَوْلًا سَدِيدًا</strong></p>
+      <p><em>"O you who have believed, fear Allah and speak words of appropriate justice" — Quran 33:70</em></p>
+    </div>
+    <div class="quote">
+      <p><strong>وَلَا تَكْتُمُوا الشَّهَادَةَ وَمَن يَكْتُمُهَا فَإِنَّهُ آثِمٌ قَلْبُهُ</strong></p>
+      <p><em>"And do not conceal testimony... his heart is indeed sinful" — Quran 2:283</em></p>
+    </div>
+  </div>
 
   <!-- Main Content -->
   <main>
@@ -214,13 +273,16 @@
       }
 
       products.forEach(product => {
+        const stockColor = product.stock <= 5 ? 'red' : 'green';
+
         productList.innerHTML += `
-          <div class="product" onclick="viewProduct('${product.id}')">
-            <img src="${product.image}" alt="${product.name}" width="150">
-            <p>${product.name}</p>
-            <p>RM${product.price}</p>
-          </div>
-        `;
+      <div class="product" onclick="viewProduct('${product.id}')">
+        <img src="${product.image}" alt="${product.name}" width="150">
+        <p><strong>${product.name}</strong></p>
+        <p>RM${product.price}</p>
+        <p style="color: ${stockColor};">Stock: ${product.stock}</p>
+      </div>
+    `;
       });
     }
 
@@ -270,6 +332,23 @@
         document.getElementById('header-avatar').src = 'images/avatars/default_photo.png';
       }
     }
+    // Quran Slideshow Logic
+    const quotes = document.querySelectorAll('.quote');
+    let current = 0;
+
+    function showNextQuote() {
+      quotes[current].classList.remove('active');
+      current = (current + 1) % quotes.length;
+      quotes[current].classList.add('active');
+    }
+
+    // Show next quote every 5 seconds
+    setInterval(showNextQuote, 5000);
+
+    // Initial display
+    window.onload = () => {
+      quotes[current].classList.add('active');
+    };
 
     // Run on page load
     loadHeaderUserInfo();

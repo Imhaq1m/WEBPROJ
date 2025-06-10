@@ -23,6 +23,8 @@
       animation: fadeIn 2s ease-in-out forwards;
       font-size: 48px;
       font-weight: bold;
+      text-align: center;
+      padding: 20px;
     }
 
     @keyframes fadeIn {
@@ -34,19 +36,53 @@
         opacity: 1;
       }
     }
+
+    .quran-verse {
+      background-color: #6D3399;
+      /* Darker purple */
+      color: white;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .quran-verse p {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+
+    .quran-verse strong {
+      font-size: 20px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .quran-verse em {
+      font-size: 14px;
+      color: #f9f9f9;
+    }
   </style>
 </head>
 
 <body>
+
   <!--<div class="logo">Residence Mart</div>-->
   <div class="logo">
-    <img src="images/extras/KSE_logo.png" alt="KSE logo" style="width:800px;height:600px;">
+    <img src="images/extras/Assalamualaikum calli.jpg" alt="Assalamualaikum logo" style="width:400px;height:200px;">
+    <br>
+    <img src="images/extras/KSE_logo.png" alt="KSE logo" style="width:600px;height:300px;">
+    <!-- Quran Verse Section -->
+    <div class="quran-verse">
+      <p><strong>َِبِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</strong></p>
+      <p><em> In the name of Allah, the Most Gracious, the Most Merciful.</em></p>
+    </div>
   </div>
 
   <script>
     setTimeout(() => {
       window.location.href = "sign-in.html";
-    }, 3000); // Redirect to sign-in page after 3 seconds
+    }, 5000); // Redirect to sign-in page after 3 seconds
   </script>
 </body>
 
