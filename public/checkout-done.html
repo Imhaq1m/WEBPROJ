@@ -158,9 +158,28 @@
       doc.setDrawColor(150);
       doc.line(20, 75, 190, 75); // Line separator
 
+      // Add ordered products
+      let yPos = 85;
+      doc.text("Ordered Products:", 20, yPos);
+      yPos += 10;
+
+      cart.forEach((item, index) => {
+        const line = `${index + 1}. ${item.name} x${item.quantity} @ RM${item.price.toFixed(2)} = RM${(item.price * item.quantity).toFixed(2)}`;
+        doc.text(line, 20, yPos);
+        yPos += 10;
+
+        // Prevent text overflow by adding new page
+        if (yPos > 280) {
+          doc.addPage();
+          yPos = 20;
+        }
+      });
+
+      // Final message
       doc.setFontSize(10);
-      doc.text("Thank you for your purchase!", 20, 85);
-      doc.text("We appreciate your support.", 20, 95);
+      yPos += 10;
+      doc.text("Thank you for your purchase!", 20, yPos);
+      doc.text("We appreciate your support.", 20, yPos + 10);
 
       // Save the PDF
       doc.save("Receipt.pdf");
