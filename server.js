@@ -10,10 +10,10 @@ const PORT = 3000;
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 
-// Serve static files (your frontend)
+// Serve static files (frontend)
 app.use(express.static('public'));
 
-// Redirect root URL to pre-sign-in.html
+// Redirect root URL to index.html(pre-sign in page)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
