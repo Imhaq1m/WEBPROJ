@@ -209,7 +209,7 @@
     </div>
   </header>
 
-  <!-- Quran Quotes Slideshow -->
+  <!-- Quran Quotes-->
   <div class="quran-slideshow">
     <div class="quote active">
       <p><strong>وَهُوَ الَّذِي يَرْزُقُكُم مِّنَ السَّمَاءِ وَالْأَرْضِ</strong></p>
@@ -235,17 +235,6 @@
 
     <!-- Search Input -->
     <input type="text" id="search-input" placeholder="Search products by name..." oninput="filterProducts()">
-
-    <!-- Category Filter Dropdown 
-    <select id="categories" onchange="filterProducts()">
-      <option value="">All Categories</option>
-      <option value="food-beverages">Food & Beverages</option>
-      <option value="personal-care">Personal Care</option>
-      <option value="household-essential">Household Essential</option>
-      <option value="stationery">Stationery</option>
-      <option value="electronics">Electronics</option>
-      <option value="health-wellness">Health & Wellness</option>
-    </select>-->
 
     <!-- Product Grid -->
     <div id="product-list" class="product-grid"></div>
@@ -332,7 +321,7 @@
         document.getElementById('header-avatar').src = 'images/avatars/default_photo.png';
       }
     }
-    // Quran Slideshow Logic
+    // Quran quotes Logic
     const quotes = document.querySelectorAll('.quote');
     let current = 0;
 
