@@ -212,7 +212,7 @@
         if (response.ok) {
           alert(result.message || "Sign up successful!");
           localStorage.setItem('userId', result.userId);
-          window.location.href = "product.html";
+          window.location.href = "sign-in.html";
         } else {
           alert(result.message || "Sign up failed.");
         }
